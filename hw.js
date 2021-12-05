@@ -40,7 +40,6 @@ app.post("/api/posts", verifyToken, (req, res) => {
     if (err) console.log(err);
     console.log("Requested url has been logged to the selected file.");
   });
-  //TODO:LOG
 });
 
 //METHODS
