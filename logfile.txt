@@ -1,0 +1,11 @@
+request: /api/posts
+request: /api/posts
+request: /api/posts
+request: /api/posts/5
+request: /api/posts
+request: /api/posts/4
+request: /api/posts
+request: /api/posts/2
+request: /api/posts
+request: /api/login
+request: /api/posts

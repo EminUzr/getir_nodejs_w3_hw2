@@ -24,16 +24,29 @@ let db = [
 app.use(express.json());
 
 app.get("/api/posts", verifyToken, (req, res) => {
+  const url = req.url;
   res.json(db);
+  fs.appendFile("logfile.txt", `request: ${url}\n`, "utf8", (err) => {
+    if (err) console.log(err);
+    console.log("Requested url has been logged to the selected file.");
+  });
 });
 
 app.post("/api/posts", verifyToken, (req, res) => {
+  const url = req.url;
   res.send("Got a POST request");
   db.push(req.body);
+  fs.appendFile("logfile.txt", `request: ${url}\n`, "utf8", (err) => {
+    if (err) console.log(err);
+    console.log("Requested url has been logged to the selected file.");
+  });
   //TODO:LOG
 });
 
+//METHODS
+
 app.patch("/api/posts/:id", verifyToken, (req, res) => {
+  const url = req.url;
   for (let index = 0; index < db.length; index++) {
     if (db[index].id == req.params.id) {
       db[index] = {
@@ -44,9 +57,14 @@ app.patch("/api/posts/:id", verifyToken, (req, res) => {
       break;
     }
   }
+  fs.appendFile("logfile.txt", `request: ${url}\n`, "utf8", (err) => {
+    if (err) console.log(err);
+    console.log("Requested url has been logged to the selected file.");
+  });
 });
 
 app.put("/api/posts/:id", verifyToken, (req, res) => {
+  const url = req.url;
   for (let index = 0; index < db.length; index++) {
     if (db[index].id == req.params.id) {
       db[index] = req.body;
@@ -54,9 +72,14 @@ app.put("/api/posts/:id", verifyToken, (req, res) => {
       break;
     }
   }
+  fs.appendFile("logfile.txt", `request: ${url}\n`, "utf8", (err) => {
+    if (err) console.log(err);
+    console.log("Requested url has been logged to the selected file.");
+  });
 });
 
 app.delete("/api/posts/:id", verifyToken, (req, res) => {
+  const url = req.url;
   for (let index = 0; index < db.length; index++) {
     if (db[index].id == req.params.id) {
       db.splice(index, 1);
@@ -64,14 +87,23 @@ app.delete("/api/posts/:id", verifyToken, (req, res) => {
       break;
     }
   }
+  fs.appendFile("logfile.txt", `request: ${url}\n`, "utf8", (err) => {
+    if (err) console.log(err);
+    console.log("Requested url has been logged to the selected file.");
+  });
 });
 
 app.post("/api/login", (req, res) => {
+  const url = req.url;
   const user = db[0];
   jwt.sign({ user }, "secretkey", (err, token) => {
     res.json({
       token,
     });
+  });
+  fs.appendFile("logfile.txt", `request: ${url}\n`, "utf8", (err) => {
+    if (err) console.log(err);
+    console.log("Requested url has been logged to the selected file.");
   });
 });
 
@@ -83,6 +115,8 @@ const port = 9000;
 app.listen(port, () => {
   console.log(`Port ${port} active`);
 });
+
+//TOKEN VERIFICATION
 
 function verifyToken(req, res, next) {
   // Geth auth header value
